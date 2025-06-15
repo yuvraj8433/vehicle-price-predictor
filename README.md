@@ -132,7 +132,7 @@ pip install -r requirements.txt
 ## 🧑‍💻 Author
 
 **Yuvraj Singh**
-📧 \[[your-email@example.com](mailto:yuvrajsingh8433075079@gmail.com)]
+📧 \[[yuvrajsingh8433075079@gmail.com](mailto:yuvrajsingh8433075079@gmail.com)]
 🌐 [LinkedIn](https://www.linkedin.com/in/yuvraj-singh-431b7b293/)
 💻 Project maintained with ❤️
 
