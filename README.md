@@ -1,5 +1,7 @@
 # 🚗 Vehicle Price Prediction using Machine Learning
 
+website => https://vehicle-price-predictor-yuvraj.streamlit.app/
+
 This project predicts the price of a vehicle based on various specifications like make, model, year, engine type, fuel type, mileage, transmission, and more. It uses a machine learning pipeline built with TensorFlow and Streamlit for model training and deployment.
 
 ---
@@ -58,7 +60,7 @@ vehicle-price-predictor/
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/vehicle-price-predictor.git
+git clone https://github.com/yuvraj8433/vehicle-price-predictor.git
 cd vehicle-price-predictor
 ```
 
