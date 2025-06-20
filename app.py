@@ -8,11 +8,14 @@ import joblib
 model = tf.keras.models.load_model("model/price_model.h5")
 preprocessor = joblib.load("model/preprocessor.pkl")
 
+# USD to INR conversion rate (approx)
+USD_TO_INR = 83.0
+
 # Page configuration
 st.set_page_config(page_title="Vehicle Price Predictor", layout="wide", page_icon="🚘")
 
 st.markdown("<h1 style='text-align: center; color: #00adb5;'>🚗 Vehicle Price Predictor</h1>", unsafe_allow_html=True)
-st.markdown("<p style='text-align: center;'>Enter vehicle details to estimate its market price instantly using AI!</p>", unsafe_allow_html=True)
+st.markdown("<p style='text-align: center;'>Enter vehicle details to estimate its market price in Indian Rupees 🇮🇳</p>", unsafe_allow_html=True)
 st.markdown("---")
 
 # Main input and output container
@@ -36,13 +39,8 @@ with st.container():
                 model_name = st.text_input("Model (e.g., Corolla)")
                 fuel = st.selectbox("Fuel Type", ["Gasoline", "Diesel", "Electric", "Hybrid", "Other"])
                 transmission = st.selectbox("Transmission Type", ["Automatic", "Manual", "Other"])
-
-            st.markdown("### 🧰 Additional Info (Optional)")
-            trim = st.text_input("Trim (e.g., LX, Base, Sport)")
-            body = st.selectbox("Body Style", ["Sedan", "SUV", "Hatchback", "Pickup Truck", "Coupe", "Van", "Other"])
-            exterior_color = st.text_input("Exterior Color")
-            interior_color = st.text_input("Interior Color")
-            drivetrain = st.selectbox("Drivetrain", ["Front-wheel Drive", "Rear-wheel Drive", "All-wheel Drive", "Four-wheel Drive", "Other"])
+                body = st.selectbox("Body Style", ["Sedan", "SUV", "Hatchback", "Pickup Truck", "Coupe", "Van", "Other"])
+                drivetrain = st.selectbox("Drivetrain", ["Front-wheel Drive", "Rear-wheel Drive", "All-wheel Drive", "Four-wheel Drive", "Other"])
 
             submitted = st.form_submit_button("🚀 Predict Price")
 
@@ -59,10 +57,7 @@ with st.container():
                 "model": [model_name],
                 "fuel": [fuel],
                 "transmission": [transmission],
-                "trim": [trim],
                 "body": [body],
-                "exterior_color": [exterior_color],
-                "interior_color": [interior_color],
                 "drivetrain": [drivetrain]
             }
 
@@ -72,16 +67,16 @@ with st.container():
                 # Preprocess and predict
                 input_processed = preprocessor.transform(input_df)
                 prediction = model.predict(input_processed)
-                predicted_price = round(prediction[0][0], 2)
+                price_usd = round(prediction[0][0], 2)
+                price_inr = round(price_usd * USD_TO_INR, 2)
 
                 st.markdown(f"""
-                    <div style='padding: 1.2rem; background-color: #222831; border-radius: 12px; text-align: center;'>
-                        <h2 style='color: #00ffcc;'>💵 ${predicted_price}</h2>
-                        <p style='color: #eeeeee;'>Estimated Price</p>
+                    <div style='padding: 1.5rem; background-color: #222831; border-radius: 12px; text-align: center;'>
+                        <h2 style='color: #00ffcc;'>₹ {price_inr}</h2>
+                        <p style='color: #eeeeee;'>Estimated Market Price (INR)</p>
                     </div>
                 """, unsafe_allow_html=True)
 
             except Exception as e:
                 st.error("Something went wrong during prediction.")
                 st.exception(e)
-
