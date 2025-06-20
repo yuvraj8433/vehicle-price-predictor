@@ -47,7 +47,7 @@ with st.container():
     with col2:
         st.subheader("📈 Predicted Price")
         if submitted:
-            # Create input dictionary
+            # Create input dictionary (include required but hidden columns)
             input_data = {
                 "year": [year],
                 "cylinders": [cylinders],
@@ -58,7 +58,12 @@ with st.container():
                 "fuel": [fuel],
                 "transmission": [transmission],
                 "body": [body],
-                "drivetrain": [drivetrain]
+                "drivetrain": [drivetrain],
+
+                # Add missing columns with default/empty values
+                "trim": [""],
+                "exterior_color": [""],
+                "interior_color": [""]
             }
 
             input_df = pd.DataFrame(input_data)
